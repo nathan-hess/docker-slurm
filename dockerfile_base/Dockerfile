@@ -3,6 +3,7 @@ ARG USER_PRIVILEGE_LEVEL=standard
 
 # Settings for all images
 ARG TIMEZONE="America/New_York"
+ARG UBUNTU_VERSION=22.04
 
 # Settings for non-root user images
 ARG USERNAME=docker
@@ -11,7 +12,7 @@ ARG UID=1000
 ARG GID=1000
 
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
-FROM ubuntu:latest as stage-root
+FROM ubuntu:${UBUNTU_VERSION} as stage-root
 ARG TIMEZONE
 
 # Run system updates
