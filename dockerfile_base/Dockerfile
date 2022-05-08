@@ -11,6 +11,7 @@ ARG PASSWORD=ubuntu
 ARG UID=1000
 ARG GID=1000
 
+
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
 FROM ubuntu:${UBUNTU_VERSION} as stage-root
 ARG TIMEZONE
@@ -39,6 +40,7 @@ COPY startup.sh /etc/startup.sh
 # Set working directory
 WORKDIR /root
 
+
 ## BUILD IMAGE: STANDARD USER ------------------------------------------------
 FROM stage-root as stage-standard
 ARG USERNAME
@@ -59,6 +61,7 @@ WORKDIR /home/${USERNAME}
 
 # Enable colored Bash terminal prompt
 RUN sed -i -e 's/#force_color_prompt=yes/force_color_prompt=yes/' /home/${USERNAME}/.bashrc
+
 
 # SELECT DESIRED USER PRIVILEGE LEVEL ----------------------------------------
 FROM stage-${USER_PRIVILEGE_LEVEL}
