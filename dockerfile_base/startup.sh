@@ -10,8 +10,8 @@ fi
 # Configure Slurm to use maximum available processors and memory
 # and start required services
 ${sudo_cmd} bash <<SCRIPT
-sed -i "s/<<CPU>>/$(nproc)/" /etc/slurm-llnl/slurm.conf
-sed -i "s/<<MEMORY>>/$(awk '/MemTotal/ { printf "%.0f \n", $2/1024 }' /proc/meminfo)/" /etc/slurm-llnl/slurm.conf
+sed -i "s/<<CPU>>/$(nproc)/" /etc/slurm/slurm.conf
+sed -i "s/<<MEMORY>>/$(awk '/MemTotal/ { printf "%.0f \n", $2/1024 }' /proc/meminfo)/" /etc/slurm/slurm.conf
 service munge start
 service slurmd start
 service slurmctld start
