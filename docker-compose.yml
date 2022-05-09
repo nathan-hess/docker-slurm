@@ -32,6 +32,15 @@ services:
     image: ${DOCKER_HUB_REPO}:base-root
     container_name: slurm-base-root
 
+  full:
+    << : *default-settings
+    image: ${DOCKER_HUB_REPO}:full
+    container_name: slurm-full
+  full-root:
+    << : *default-settings
+    image: ${DOCKER_HUB_REPO}:full-root
+    container_name: slurm-full-root
+
   build-base:
     << : *default-settings
     build:
@@ -46,3 +55,18 @@ services:
       << : *default-build-args-root
     image: ${DOCKER_HUB_REPO}:base-root
     container_name: slurm-base-root
+
+  build-full:
+    << : *default-settings
+    build:
+      context: ./dockerfile_full
+      << : *default-build-args-standard
+    image: ${DOCKER_HUB_REPO}:full
+    container_name: slurm-full
+  build-full-root:
+    << : *default-settings
+    build:
+      context: ./dockerfile_full
+      << : *default-build-args-root
+    image: ${DOCKER_HUB_REPO}:full-root
+    container_name: slurm-full-root
