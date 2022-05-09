@@ -2,12 +2,12 @@
 ARG USER_PRIVILEGE_LEVEL=standard
 
 # Settings for all images
-ARG TIMEZONE="America/New_York"
+ARG TIMEZONE="UTC"
 ARG UBUNTU_VERSION=22.04
 
 # Settings for non-root user images
-ARG USERNAME=docker
-ARG PASSWORD=ubuntu
+ARG USERNAME
+ARG PASSWORD
 ARG UID=1000
 ARG GID=1000
 
