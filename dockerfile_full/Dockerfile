@@ -5,7 +5,7 @@ ARG USER_PRIVILEGE_LEVEL=standard
 ARG BASE_DOCKER_REPO
 ARG TIMEZONE="UTC"
 
-# Settings for non-root user images
+# Settings for standard user images
 ARG USERNAME
 ARG PASSWORD
 ARG UID=1000

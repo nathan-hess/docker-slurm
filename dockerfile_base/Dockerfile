@@ -5,7 +5,7 @@ ARG USER_PRIVILEGE_LEVEL=standard
 ARG TIMEZONE="UTC"
 ARG UBUNTU_VERSION=22.04
 
-# Settings for non-root user images
+# Settings for standard user images
 ARG USERNAME
 ARG PASSWORD
 ARG UID=1000
