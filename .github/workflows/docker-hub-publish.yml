@@ -48,13 +48,13 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
           build-args: |
-            BASE_DOCKER_REPO:${{ env.DOCKER_HUB_REPO }}
-            USERNAME:${{ env.CONTAINER_USERNAME }}
-            PASSWORD:${{ env.CONTAINER_PASSWORD }}
-            UID:${{ env.CONTAINER_UID }}
-            GID:${{ env.CONTAINER_GID }}
-            TIMEZONE:${{ env.CONTAINER_TIMEZONE }}
-            USER_PRIVILEGE_LEVEL:${{ matrix.user }}
+            BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+            USERNAME=${{ env.CONTAINER_USERNAME }}
+            PASSWORD=${{ env.CONTAINER_PASSWORD }}
+            UID=${{ env.CONTAINER_UID }}
+            GID=${{ env.CONTAINER_GID }}
+            TIMEZONE=${{ env.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL=${{ matrix.user }}
 
   build-full:
     name: Docker Hub - ${{ matrix.config }} - ${{ matrix.user }}
@@ -91,10 +91,10 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
           build-args: |
-            BASE_DOCKER_REPO:${{ env.DOCKER_HUB_REPO }}
-            USERNAME:${{ env.CONTAINER_USERNAME }}
-            PASSWORD:${{ env.CONTAINER_PASSWORD }}
-            UID:${{ env.CONTAINER_UID }}
-            GID:${{ env.CONTAINER_GID }}
-            TIMEZONE:${{ env.CONTAINER_TIMEZONE }}
-            USER_PRIVILEGE_LEVEL:${{ matrix.user }}
+            BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+            USERNAME=${{ env.CONTAINER_USERNAME }}
+            PASSWORD=${{ env.CONTAINER_PASSWORD }}
+            UID=${{ env.CONTAINER_UID }}
+            GID=${{ env.CONTAINER_GID }}
+            TIMEZONE=${{ env.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL=${{ matrix.user }}
