@@ -36,6 +36,7 @@ RUN mkdir -p /var/spool/slurmctld \
 
 # Startup configuration
 COPY startup.sh /etc/startup.sh
+RUN chmod u+x /etc/startup.sh
 
 # Set working directory
 WORKDIR /root
@@ -67,4 +68,4 @@ RUN sed -i -e 's/#force_color_prompt=yes/force_color_prompt=yes/' /home/${USERNA
 FROM stage-${USER_PRIVILEGE_LEVEL}
 
 # Set default command when running container
-CMD /etc/startup.sh ; /bin/bash
+CMD bash /etc/startup.sh ; /bin/bash
