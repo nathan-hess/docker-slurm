@@ -44,11 +44,17 @@ jobs:
       - name: Build and Publish Docker Image
         uses: docker/build-push-action@v2
         with:
-          context: ./Dockerfile_${{ matrix.config }}/
+          context: ./dockerfile_${{ matrix.config }}/
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
-          build-args: USER_PRIVILEGE_LEVEL=${{ matrix.user }}
-
+          build-args: |
+            BASE_DOCKER_REPO:${{ env.DOCKER_HUB_REPO }}
+            USERNAME:${{ env.CONTAINER_USERNAME }}
+            PASSWORD:${{ env.CONTAINER_PASSWORD }}
+            UID:${{ env.CONTAINER_UID }}
+            GID:${{ env.CONTAINER_GID }}
+            TIMEZONE:${{ env.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL:${{ matrix.user }}
 
   build-full:
     name: Docker Hub - ${{ matrix.config }} - ${{ matrix.user }}
@@ -81,7 +87,14 @@ jobs:
       - name: Build and Publish Docker Image
         uses: docker/build-push-action@v2
         with:
-          context: ./Dockerfile_${{ matrix.config }}/
+          context: ./dockerfile_${{ matrix.config }}/
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
-          build-args: USER_PRIVILEGE_LEVEL=${{ matrix.user }}
+          build-args: |
+            BASE_DOCKER_REPO:${{ env.DOCKER_HUB_REPO }}
+            USERNAME:${{ env.CONTAINER_USERNAME }}
+            PASSWORD:${{ env.CONTAINER_PASSWORD }}
+            UID:${{ env.CONTAINER_UID }}
+            GID:${{ env.CONTAINER_GID }}
+            TIMEZONE:${{ env.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL:${{ matrix.user }}
