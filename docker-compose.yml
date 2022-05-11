@@ -1,0 +1,72 @@
+version: "3.8"
+
+x-defaults:
+  &default-settings
+  hostname: linux
+  tty: true
+
+x-defaults-build-standard:
+  &default-build-args-standard
+  args:
+    - BASE_DOCKER_REPO=${DOCKER_HUB_REPO}
+    - USERNAME=${CONTAINER_USERNAME}
+    - PASSWORD=${CONTAINER_PASSWORD}
+    - UID=${CONTAINER_UID}
+    - GID=${CONTAINER_GID}
+    - TIMEZONE=${CONTAINER_TIMEZONE}
+    - USER_PRIVILEGE_LEVEL=standard
+
+x-defaults-build-root:
+  &default-build-args-root
+  << : *default-build-args-standard
+  args:
+    - USER_PRIVILEGE_LEVEL=root
+
+services:
+  base:
+    << : *default-settings
+    image: ${DOCKER_HUB_REPO}:base
+    container_name: slurm-base
+  base-root:
+    << : *default-settings
+    image: ${DOCKER_HUB_REPO}:base-root
+    container_name: slurm-base-root
+
+  full:
+    << : *default-settings
+    image: ${DOCKER_HUB_REPO}:full
+    container_name: slurm-full
+  full-root:
+    << : *default-settings
+    image: ${DOCKER_HUB_REPO}:full-root
+    container_name: slurm-full-root
+
+  build-base:
+    << : *default-settings
+    build:
+      context: ./dockerfile_base
+      << : *default-build-args-standard
+    image: ${DOCKER_HUB_REPO}:base
+    container_name: slurm-base
+  build-base-root:
+    << : *default-settings
+    build:
+      context: ./dockerfile_base
+      << : *default-build-args-root
+    image: ${DOCKER_HUB_REPO}:base-root
+    container_name: slurm-base-root
+
+  build-full:
+    << : *default-settings
+    build:
+      context: ./dockerfile_full
+      << : *default-build-args-standard
+    image: ${DOCKER_HUB_REPO}:full
+    container_name: slurm-full
+  build-full-root:
+    << : *default-settings
+    build:
+      context: ./dockerfile_full
+      << : *default-build-args-root
+    image: ${DOCKER_HUB_REPO}:full-root
+    container_name: slurm-full-root
