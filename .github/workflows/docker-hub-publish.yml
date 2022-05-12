@@ -1,0 +1,100 @@
+name: Docker Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/docker-hub-publish.yml'
+      - 'dockerfile**'
+      - '.env'
+    tags-ignore:
+      - '**'
+  schedule:
+    - cron: '0 0 14,28 * *'
+  workflow_dispatch:
+
+jobs:
+  build-base:
+    name: Docker Hub - ${{ matrix.config }} - ${{ matrix.user }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [base]
+        user: [standard]
+        tag: [base]
+        include:
+          - config: base
+            user: root
+            tag: base-root
+    steps:
+      - name: Check Out Repository Files
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Load Build Arguments
+        run: cat .env >> $GITHUB_ENV
+
+      - name: Build and Publish Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./dockerfile_${{ matrix.config }}/
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
+          build-args: |
+            BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+            USERNAME=${{ env.CONTAINER_USERNAME }}
+            PASSWORD=${{ env.CONTAINER_PASSWORD }}
+            UID=${{ env.CONTAINER_UID }}
+            GID=${{ env.CONTAINER_GID }}
+            TIMEZONE=${{ env.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL=${{ matrix.user }}
+
+  build-full:
+    name: Docker Hub - ${{ matrix.config }} - ${{ matrix.user }}
+    needs: [build-base]
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [full]
+        user: [standard]
+        tag: [full]
+        include:
+          - config: full
+            user: root
+            tag: full-root
+    steps:
+      - name: Check Out Repository Files
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Load Build Arguments
+        run: cat .env >> $GITHUB_ENV
+
+      - name: Build and Publish Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./dockerfile_${{ matrix.config }}/
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
+          build-args: |
+            BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+            USERNAME=${{ env.CONTAINER_USERNAME }}
+            PASSWORD=${{ env.CONTAINER_PASSWORD }}
+            UID=${{ env.CONTAINER_UID }}
+            GID=${{ env.CONTAINER_GID }}
+            TIMEZONE=${{ env.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL=${{ matrix.user }}
