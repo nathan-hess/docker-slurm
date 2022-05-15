@@ -9,6 +9,7 @@ x-defaults-build-standard:
   &default-build-args-standard
   args:
     - BASE_DOCKER_REPO=${DOCKER_HUB_REPO}
+    - BASE_TAG=${TAG_BASE_ROOT}
     - USERNAME=${CONTAINER_USERNAME}
     - PASSWORD=${CONTAINER_PASSWORD}
     - UID=${CONTAINER_UID}

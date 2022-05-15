@@ -46,9 +46,10 @@ jobs:
         with:
           context: ./dockerfile_${{ matrix.config }}/
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
+          tags: ${{ env.DOCKER_HUB_REPO }}:${{ matrix.tag }}
           build-args: |
             BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+            BASE_TAG=${{ env.TAG_BASE_ROOT }}
             USERNAME=${{ env.CONTAINER_USERNAME }}
             PASSWORD=${{ env.CONTAINER_PASSWORD }}
             UID=${{ env.CONTAINER_UID }}
@@ -89,9 +90,10 @@ jobs:
         with:
           context: ./dockerfile_${{ matrix.config }}/
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/slurm:${{ matrix.tag }}
+          tags: ${{ env.DOCKER_HUB_REPO }}:${{ matrix.tag }}
           build-args: |
             BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+            BASE_TAG=${{ env.TAG_BASE_ROOT }}
             USERNAME=${{ env.CONTAINER_USERNAME }}
             PASSWORD=${{ env.CONTAINER_PASSWORD }}
             UID=${{ env.CONTAINER_UID }}

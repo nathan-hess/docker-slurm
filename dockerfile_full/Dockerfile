@@ -3,6 +3,7 @@ ARG USER_PRIVILEGE_LEVEL=standard
 
 # Settings for all images
 ARG BASE_DOCKER_REPO
+ARG BASE_TAG
 ARG TIMEZONE="UTC"
 
 # Settings for standard user images
@@ -13,7 +14,7 @@ ARG GID=1000
 
 
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
-FROM ${BASE_DOCKER_REPO}:base-root as stage-root
+FROM ${BASE_DOCKER_REPO}:${BASE_TAG} as stage-root
 
 # Run system updates
 RUN apt update && apt -y upgrade
