@@ -2,7 +2,7 @@ version: "3.8"
 
 x-defaults:
   &default-settings
-  hostname: linux
+  hostname: ${CONTAINER_HOSTNAME}
   tty: true
 
 x-defaults-build-standard:
