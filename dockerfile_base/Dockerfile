@@ -38,8 +38,9 @@ RUN mkdir -p /var/spool/slurmctld \
 COPY startup.sh /etc/startup.sh
 RUN chmod 555 /etc/startup.sh
 
-# Set working directory
+# Set working directory and default command when running container
 WORKDIR /root
+CMD /etc/startup.sh ; /bin/bash -l
 
 
 ## BUILD IMAGE: STANDARD USER ------------------------------------------------
@@ -54,18 +55,20 @@ RUN apt -y install sudo openssl
 RUN useradd --create-home --uid=${UID} ${USERNAME} -p "$(openssl passwd -1 ${PASSWORD})" \
     && usermod -a -G sudo ${USERNAME}
 
+# Configure user permissions for startup script
+RUN printf "\n${USERNAME} ALL=(root:root) NOPASSWD: /etc/startup.sh\n" >> /etc/sudoers \
+    && visudo -c
+
 # Set standard user as default
 USER ${UID}:${GID}
-
-# Set working directory
-WORKDIR /home/${USERNAME}
 
 # Enable colored Bash terminal prompt
 RUN sed -i -e 's/#force_color_prompt=yes/force_color_prompt=yes/' /home/${USERNAME}/.bashrc
 
+# Set working directory and default command when running container
+WORKDIR /home/${USERNAME}
+CMD sudo /etc/startup.sh ; /bin/bash -l
+
 
 # SELECT DESIRED USER PRIVILEGE LEVEL ----------------------------------------
 FROM stage-${USER_PRIVILEGE_LEVEL}
-
-# Set default command when running container
-CMD /etc/startup.sh ; /bin/bash -l
