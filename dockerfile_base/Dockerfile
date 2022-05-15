@@ -36,7 +36,7 @@ RUN mkdir -p /var/spool/slurmctld \
 
 # Startup configuration
 COPY startup.sh /etc/startup.sh
-RUN chmod u+x /etc/startup.sh
+RUN chmod 555 /etc/startup.sh
 
 # Set working directory
 WORKDIR /root
