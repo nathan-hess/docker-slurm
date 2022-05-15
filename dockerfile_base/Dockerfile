@@ -68,4 +68,4 @@ RUN sed -i -e 's/#force_color_prompt=yes/force_color_prompt=yes/' /home/${USERNA
 FROM stage-${USER_PRIVILEGE_LEVEL}
 
 # Set default command when running container
-CMD bash /etc/startup.sh ; /bin/bash
+CMD /etc/startup.sh ; /bin/bash -l

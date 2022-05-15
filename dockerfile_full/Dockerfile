@@ -77,4 +77,4 @@ ENV PATH="${PATH}:/home/${USERNAME}/.local/bin"
 FROM stage-${USER_PRIVILEGE_LEVEL}
 
 # Set default command when running container
-CMD bash /etc/startup.sh ; /bin/bash
+CMD /etc/startup.sh ; /bin/bash -l
