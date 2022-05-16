@@ -2,7 +2,7 @@
 ARG USER_PRIVILEGE_LEVEL=standard
 
 # Settings for all images
-ARG TIMEZONE="UTC"
+ARG TIMEZONE=UTC
 ARG UBUNTU_VERSION=22.04
 
 # Settings for standard user images
