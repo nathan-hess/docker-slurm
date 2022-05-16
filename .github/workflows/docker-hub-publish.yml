@@ -30,6 +30,7 @@ jobs:
       TAG_BASE_ROOT: ${{ env.TAG_BASE_ROOT }}
       TAG_FULL_STANDARD: ${{ env.TAG_FULL_STANDARD }}
       TAG_FULL_ROOT: ${{ env.TAG_FULL_ROOT }}
+      CONTAINER_UBUNTU_VERSION: ${{ env.CONTAINER_UBUNTU_VERSION }}
       CONTAINER_USERNAME: ${{ env.CONTAINER_USERNAME }}
       CONTAINER_PASSWORD: ${{ env.CONTAINER_PASSWORD }}
       CONTAINER_UID: ${{ env.CONTAINER_UID }}
@@ -68,6 +69,7 @@ jobs:
           build-args: |
             BASE_DOCKER_REPO=${{ needs.setup.outputs.DOCKER_HUB_REPO }}
             BASE_TAG=${{ needs.setup.outputs.TAG_BASE_ROOT }}
+            UBUNTU_VERSION=${{ needs.setup.outputs.CONTAINER_UBUNTU_VERSION }}
             USERNAME=${{ needs.setup.outputs.CONTAINER_USERNAME }}
             PASSWORD=${{ needs.setup.outputs.CONTAINER_PASSWORD }}
             UID=${{ needs.setup.outputs.CONTAINER_UID }}
@@ -107,6 +109,7 @@ jobs:
           build-args: |
             BASE_DOCKER_REPO=${{ needs.setup.outputs.DOCKER_HUB_REPO }}
             BASE_TAG=${{ needs.setup.outputs.TAG_BASE_ROOT }}
+            UBUNTU_VERSION=${{ needs.setup.outputs.CONTAINER_UBUNTU_VERSION }}
             USERNAME=${{ needs.setup.outputs.CONTAINER_USERNAME }}
             PASSWORD=${{ needs.setup.outputs.CONTAINER_PASSWORD }}
             UID=${{ needs.setup.outputs.CONTAINER_UID }}
