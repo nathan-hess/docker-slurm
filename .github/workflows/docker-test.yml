@@ -31,6 +31,43 @@ jobs:
       CONTAINER_GID: ${{ env.CONTAINER_GID }}
       CONTAINER_TIMEZONE: ${{ env.CONTAINER_TIMEZONE }}
 
+  test-base:
+    name: Docker Test - base - ${{ matrix.user }}
+    needs: setup
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        user: [standard]
+        sudo: ["sudo"]
+        include:
+          - user: root
+            sudo: ""
+    steps:
+      - name: Check Out Repository Files
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image - base
+        uses: docker/build-push-action@v2
+        with:
+          context: ./dockerfile_base/
+          push: false
+          tags: test
+          build-args: |
+            BASE_DOCKER_REPO=${{ needs.setup.outputs.DOCKER_HUB_REPO }}
+            UBUNTU_VERSION=${{ needs.setup.outputs.CONTAINER_UBUNTU_VERSION }}
+            USERNAME=${{ needs.setup.outputs.CONTAINER_USERNAME }}
+            PASSWORD=${{ needs.setup.outputs.CONTAINER_PASSWORD }}
+            UID=${{ needs.setup.outputs.CONTAINER_UID }}
+            GID=${{ needs.setup.outputs.CONTAINER_GID }}
+            TIMEZONE=${{ needs.setup.outputs.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL=${{ matrix.user }}
+
+      - name: Test Docker Image
+        run: |
+          docker run --rm -v $GITHUB_WORKSPACE:/host test /bin/bash -c "${{ matrix.sudo }} /etc/startup.sh && bash /host/dockerfile_base/image_tests/run_tests.sh"
+
   test-full:
     name: Docker Test - full - ${{ matrix.user }}
     needs: setup
