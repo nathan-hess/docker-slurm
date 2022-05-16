@@ -1,0 +1,85 @@
+name: Docker Image Testing
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  setup:
+    name: Build Environment Setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository Files
+        uses: actions/checkout@v3
+
+      - name: Load Environment Variables
+        run: cat .env >> $GITHUB_ENV
+    outputs:
+      DOCKER_HUB_REPO: ${{ env.DOCKER_HUB_REPO }}
+      TAG_BASE_STANDARD: ${{ env.TAG_BASE_STANDARD }}
+      TAG_BASE_ROOT: ${{ env.TAG_BASE_ROOT }}
+      TAG_FULL_STANDARD: ${{ env.TAG_FULL_STANDARD }}
+      TAG_FULL_ROOT: ${{ env.TAG_FULL_ROOT }}
+      CONTAINER_UBUNTU_VERSION: ${{ env.CONTAINER_UBUNTU_VERSION }}
+      CONTAINER_USERNAME: ${{ env.CONTAINER_USERNAME }}
+      CONTAINER_PASSWORD: ${{ env.CONTAINER_PASSWORD }}
+      CONTAINER_UID: ${{ env.CONTAINER_UID }}
+      CONTAINER_GID: ${{ env.CONTAINER_GID }}
+      CONTAINER_TIMEZONE: ${{ env.CONTAINER_TIMEZONE }}
+
+  test-full:
+    name: Docker Test - full - ${{ matrix.user }}
+    needs: setup
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        user: [standard]
+        sudo: ["sudo"]
+        include:
+          - user: root
+            sudo: ""
+    steps:
+      - name: Check Out Repository Files
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image - base root
+        uses: docker/build-push-action@v2
+        with:
+          context: ./dockerfile_base/
+          push: false
+          tags: ${{ needs.setup.outputs.DOCKER_HUB_REPO }}:${{ needs.setup.outputs.TAG_BASE_ROOT }}
+          build-args: |
+            BASE_DOCKER_REPO=${{ needs.setup.outputs.DOCKER_HUB_REPO }}
+            UBUNTU_VERSION=${{ needs.setup.outputs.CONTAINER_UBUNTU_VERSION }}
+            USERNAME=${{ needs.setup.outputs.CONTAINER_USERNAME }}
+            PASSWORD=${{ needs.setup.outputs.CONTAINER_PASSWORD }}
+            UID=${{ needs.setup.outputs.CONTAINER_UID }}
+            GID=${{ needs.setup.outputs.CONTAINER_GID }}
+            TIMEZONE=${{ needs.setup.outputs.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL=root
+
+      - name: Build Docker Image - full
+        uses: docker/build-push-action@v2
+        with:
+          context: ./dockerfile_full/
+          push: false
+          tags: test
+          build-args: |
+            BASE_DOCKER_REPO=${{ needs.setup.outputs.DOCKER_HUB_REPO }}
+            BASE_TAG=${{ needs.setup.outputs.TAG_BASE_ROOT }}
+            USERNAME=${{ needs.setup.outputs.CONTAINER_USERNAME }}
+            PASSWORD=${{ needs.setup.outputs.CONTAINER_PASSWORD }}
+            UID=${{ needs.setup.outputs.CONTAINER_UID }}
+            GID=${{ needs.setup.outputs.CONTAINER_GID }}
+            TIMEZONE=${{ needs.setup.outputs.CONTAINER_TIMEZONE }}
+            USER_PRIVILEGE_LEVEL=${{ matrix.user }}
+
+      - name: Test Docker Image
+        run: |
+          docker run --rm -v $GITHUB_WORKSPACE:/host test /bin/bash -c "${{ matrix.sudo }} /etc/startup.sh && python3 /host/dockerfile_full/run_tests_${{ matrix.user }}.py"
