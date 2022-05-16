@@ -66,7 +66,7 @@ jobs:
 
       - name: Test Docker Image
         run: |
-          docker run --rm -v $GITHUB_WORKSPACE:/host test /bin/bash -c "${{ matrix.sudo }} /etc/startup.sh && bash /host/dockerfile_base/image_tests/run_tests.sh"
+          docker run --rm -v $GITHUB_WORKSPACE:/host test /bin/bash -c "${{ matrix.sudo }} /etc/startup.sh && bash /host/dockerfile_base/image_tests/run_tests.sh ${{ matrix.user }}"
 
   test-full:
     name: Docker Test - full - ${{ matrix.user }}
