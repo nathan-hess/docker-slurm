@@ -4,7 +4,6 @@ ARG USER_PRIVILEGE_LEVEL=standard
 # Settings for all images
 ARG BASE_DOCKER_REPO
 ARG BASE_TAG
-ARG TIMEZONE="UTC"
 
 # Settings for standard user images
 ARG USERNAME
