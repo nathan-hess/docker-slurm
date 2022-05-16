@@ -39,6 +39,7 @@ jobs:
   build-base:
     name: Docker Hub - base - ${{ matrix.user }}
     needs: setup
+    if: ${{ success() }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
