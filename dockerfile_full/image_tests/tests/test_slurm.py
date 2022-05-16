@@ -25,6 +25,10 @@ class TestSlurm(unittest.TestCase):
         # Checks for successful installation of sinfo
         self.assertTrue(check_pkg_exists('sinfo'))
 
+    def test_scontrol(self):
+        # Checks for successful installation of scontrol
+        self.assertTrue(check_pkg_exists('scontrol'))
+
     def test_run_srun(self):
         # Checks that running a job with `srun` results in
         # expected output
@@ -37,7 +41,10 @@ class TestSlurm(unittest.TestCase):
     def test_run_sbatch(self):
         # Checks that running a job with `sbatch` results in
         # expected output
-        os.chdir(pathlib.Path('~').expanduser().resolve())
+        run_dir = pathlib.Path(
+                      os.environ.get('RUNNER_TEMP', '~')
+                  ).expanduser().resolve()
+        os.chdir(run_dir)
 
         # Create job submission script
         with open('run.sh', 'w', encoding='UTF-8') as fileID:
@@ -53,7 +60,7 @@ class TestSlurm(unittest.TestCase):
             )
 
         # Run job
-        job_log = pathlib.Path('~/job_log.txt').expanduser().resolve()
+        job_log = run_dir / 'job_log.txt'
         self.assertFalse(job_log.exists())
 
         output = subprocess.run(
@@ -66,11 +73,20 @@ class TestSlurm(unittest.TestCase):
         # Check that output matches expected format
         self.assertEqual(len(stdout), 4)
         self.assertEqual(' '.join(stdout[0:3]), 'Submitted batch job')
-
-        # Check that job output log matches expected format
-        time.sleep(1)           # Allow time for job to run
         job_id = stdout[-1]     # Get Job ID
 
+        # Wait for jobs to finish running, up to 120 seconds
+        t0 = time.time()
+        while (time.time() - t0 <= 120):
+            # Get Job IDs of running jobs
+            output = subprocess.run(['squeue', '-h', '--format=%A'],
+                                    stdout=subprocess.PIPE)
+
+            # If no jobs are running, exit loop
+            if len(output.stdout.decode('UTF-8').split()) == 0:
+                break
+
+        # Check that job output log matches expected format
         self.assertTrue(job_log.is_file())
 
         with open(job_log, 'r', encoding='UTF-8') as fileID:
@@ -80,7 +96,7 @@ class TestSlurm(unittest.TestCase):
             job_log_contents,
             (
                 f'Docker containers are awesome\n'
-                f'{pathlib.Path("~").expanduser().resolve()}\n'
+                f'{run_dir}\n'
                 f'{platform.node()}\n'
                 f'{job_id}\n'
                 f'debug\n'
