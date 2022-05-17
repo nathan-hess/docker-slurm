@@ -1,15 +1,15 @@
 ## SETTINGS ------------------------------------------------------------------
-ARG USER_PRIVILEGE_LEVEL=standard
+ARG USER_PRIVILEGE_LEVEL
 
 # Settings for all images
-ARG TIMEZONE=UTC
-ARG UBUNTU_VERSION=22.04
+ARG TIMEZONE
+ARG UBUNTU_VERSION
 
 # Settings for standard user images
 ARG USERNAME
 ARG PASSWORD
-ARG UID=1000
-ARG GID=1000
+ARG UID
+ARG GID
 
 
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
