@@ -1,5 +1,5 @@
 ## SETTINGS ------------------------------------------------------------------
-ARG USER_PRIVILEGE_LEVEL=standard
+ARG USER_PRIVILEGE_LEVEL
 
 # Settings for all images
 ARG BASE_DOCKER_REPO
@@ -8,8 +8,8 @@ ARG BASE_TAG
 # Settings for standard user images
 ARG USERNAME
 ARG PASSWORD
-ARG UID=1000
-ARG GID=1000
+ARG UID
+ARG GID
 
 
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
