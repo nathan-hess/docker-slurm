@@ -12,3 +12,6 @@
 
 ## Issues Closed
   * Closes ## -- reason why issue is resolved
+
+## Notes and References
+  * Additional information or external sources that were used in code development
