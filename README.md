@@ -29,6 +29,26 @@ Both image versions are configured such that the default user is either `root` (
 Dockerfiles and other configuration files for these images are stored in GitHub.  The images are automatically built and published to [Docker Hub](https://hub.docker.com/) with a GitHub Actions workflow.  The workflow runs twice a month, in addition to any time a change is made to the `Dockerfile` for either image, the workflow file itself, or configuration files (`.env`).
 
 
+---
+
+## Introduction to Docker
+
+Docker is a platform designed for setting up and running containers.  On a high level, containers bundle software, files, and system configuration options into a single, distributable environment.
+
+From Docker's [official documentation](https://docs.docker.com/get-started/overview/):
+> Docker provides the ability to package and run an application in a loosely isolated environment called a container. [...] Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installed on the host. You can easily share containers while you work, and be sure that everyone you share with gets the same container that works in the same way.
+
+Containers in many ways function similar to a virtual machine: you can install required dependencies, set configuration options, and define environment variables inside a container, and then share the container to any other system to reproduce a nearly identical environment.  However, it is important to note that containers and virtual machines are NOT equivalent, and each has their own capabilities and limitations.
+
+Some of the advantages of containers include:
+
+- **Bundled dependencies**: Setting up a development environment or dependencies required to run an application often involves many manual steps.  These steps can become time-consuming and tedious if performed manually on a per-system basis.  However, if instead all dependencies are installed in a container, then the container can simply be transferred to different systems, and all dependencies and configuration will be transferred with it.  This makes it extremely easy to set up and run your code on different systems.
+- **Reproducibility**: Using containers allows you to run your code with identical dependency versions and system configuration, so the same code should behave identically on different machines.
+- **Ability to install software without administrator privileges**: In many cases, you may not have administrator privileges on computing systems such as HPC clusters, but you may need certain dependencies that require administrator privileges to install.  Many HPC clusters offer container software that provides a workaround: simply install your software in a container, and then you can transfer the container to the HPC cluster and run all required dependencies without administrator privileges.
+
+For a list of useful Docker commands, refer to the [Docker Command-Line Reference](https://docs.docker.com/engine/reference/commandline/docker/).
+
+
 ## References
 
 - [Slurm](https://slurm.schedmd.com/)
