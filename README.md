@@ -63,3 +63,5 @@ For a list of useful Docker commands, refer to the [Docker Command-Line Referenc
   - [Docker Extension](https://code.visualstudio.com/docs/containers/overview)
   - [Developing Inside a Container](https://code.visualstudio.com/docs/remote/containers)
   - [Attach to a Container](https://code.visualstudio.com/docs/remote/attach-container)
+- [GitHub Actions](https://docs.github.com/en/actions)
+  - [Running jobs in a container](https://docs.github.com/en/actions/using-jobs/running-jobs-in-a-container)
