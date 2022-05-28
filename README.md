@@ -49,6 +49,22 @@ Some of the advantages of containers include:
 For a list of useful Docker commands, refer to the [Docker Command-Line Reference](https://docs.docker.com/engine/reference/commandline/docker/).
 
 
+## Project History, Features, and Limitations
+
+This project began in March 2022 to solve a challenge in a code development project seeking to develop Python scripts to interact with Slurm.  While developing the code, it was necessary to repeatedly run Slurm commands for testing, but access to HPC systems often incurs financial costs and requires waiting in queues, slowing down the development process.  How could code invoking Slurm commands be tested rapidly and at no financial cost?
+
+The answer was to use Docker containers.  This provides several benefits:
+- As discussed in the [Introduction to Docker](#introduction-to-docker) section, Docker containers are lightweight, reproducible, and easily set up and removed -- conducive to code testing.
+- Visual Studio Code has built-in mechanisms to set up Docker-based [development containers](https://code.visualstudio.com/docs/remote/containers), facilitating rapid code development, without the need to test code on HPC systems.
+- GitHub Actions allows workflows to be [run in custom Docker containers](https://docs.github.com/en/actions/using-jobs/running-jobs-in-a-container), facilitating automated code testing.
+
+That said, as with any project, there are important limitations to be aware of:
+- These images have a relatively basic Slurm setup.  They do not use Slurm configuration features such as cgroups or a job accounting database.
+- These images define a single-node setup.  However, they could be relatively easily extended to a multi-node cluster through Docker Compose or Kubernetes.
+
+If extending the existing Docker image configurations to overcome any of the above limitations would benefit your work, please [submit an issue](https://github.com/nathan-hess/docker-slurm/issues/new?labels=enhancement&template=feature_request.md).
+
+
 ## References
 
 - [Slurm](https://slurm.schedmd.com/)
