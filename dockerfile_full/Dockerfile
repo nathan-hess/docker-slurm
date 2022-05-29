@@ -62,7 +62,8 @@ RUN useradd --create-home --uid=${UID} ${USERNAME} -p "$(openssl passwd -1 ${PAS
     && usermod -a -G sudo ${USERNAME}
 
 # Configure user permissions for startup script
-RUN printf "\n${USERNAME} ALL=(root:root) NOPASSWD: /etc/startup.sh\n" >> /etc/sudoers \
+RUN printf "${USERNAME} ALL=(root:root) NOPASSWD: /etc/startup.sh\n" >> /etc/sudoers.d/startup \
+    && chmod 0440 /etc/sudoers.d/startup \
     && visudo -c
 
 # Set standard user as default
