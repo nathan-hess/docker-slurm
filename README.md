@@ -130,7 +130,7 @@ A sample `devcontainer.json` file is shown below.  This sample file illustrates 
 
 #### Attach to a Running Container
 
-Another way to open VS Code in a container is to first create a *detached* container, either using Docker Compose as described [above](#docker-compose) or with `docker run -d`.
+An alternative way to open VS Code in a Docker container without using a `devcontainer.json` file is to first create a *detached* container, either using Docker Compose as described [above](#docker-compose) or with `docker run -d`.
 
 Then, as shown in the image below, open VS Code and navigate to the Docker extension menu.  The detached container you created should appear.  Right-click it and choose "Attach Visual Studio Code."
 
@@ -154,7 +154,7 @@ Where `[TAG]` is selected from the table [above](#docker-hub-repository-httpshub
 For more information, refer to the [GitHub Actions documentation](https://docs.github.com/en/actions/using-jobs/running-jobs-in-a-container).
 
 
-## Project History, Features, and Limitations
+## Project History, Capabilities, and Limitations
 
 This project began in March 2022 to solve a challenge in a code development project seeking to develop Python scripts to interact with Slurm.  While developing the code, it was necessary to repeatedly run Slurm commands for testing, but access to HPC systems often incurs financial costs and requires waiting in queues, slowing down the development process.  How could code invoking Slurm commands be tested rapidly and at no financial cost?
 
@@ -167,7 +167,7 @@ That said, as with any project, there are important limitations to be aware of:
 - These images have a relatively basic Slurm setup.  They do not use Slurm configuration features such as cgroups or a job accounting database.
 - These images define a single-node setup.  However, they could be relatively easily extended to a multi-node cluster through Docker Compose or Kubernetes.
 
-If extending the existing Docker image configurations to overcome any of the above limitations would benefit your work, please [submit an issue](https://github.com/nathan-hess/docker-slurm/issues/new?labels=enhancement&template=feature_request.md).
+If extending the existing Docker image configurations to overcome any of the above limitations would benefit your work, please [submit a feature request](https://github.com/nathan-hess/docker-slurm/issues/new?labels=enhancement&template=feature_request.md).
 
 
 ## References
