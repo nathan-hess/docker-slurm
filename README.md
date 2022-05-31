@@ -4,6 +4,8 @@
 
 This repository contains setup files for Ubuntu-based Docker images and containers with the [Slurm Workload Manager](https://slurm.schedmd.com/) installed.  These images are primarily designed to serve as an environment to experiment with Slurm or run unit/integration tests of code that will later be run on high-performance computing (HPC) resources.
 
+![Container Usage Demonstration](media/readme_container_demo.gif)
+
 
 ## Image Descriptions and Tags
 
