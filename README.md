@@ -28,7 +28,7 @@ Both image versions are configured such that the default user is either `root` (
 
 ### GitHub repository: https://github.com/nathan-hess/docker-slurm
 
-Dockerfiles and other configuration files for these images are stored in GitHub.  The images are automatically built and published to [Docker Hub](https://hub.docker.com/) with a GitHub Actions workflow.  The workflow runs twice a month, in addition to any time a change is made to the `Dockerfile` for either image, the workflow file itself, or configuration files (`.env`).
+Dockerfiles and other configuration files for these images are stored in GitHub.  The images are automatically built and published to [Docker Hub](https://hub.docker.com/) with a GitHub Actions workflow.  The workflow runs twice a month (to keep packages updated), in addition to any time a change is made to the `Dockerfile` for either image, the workflow file itself, or configuration files.
 
 
 ---
