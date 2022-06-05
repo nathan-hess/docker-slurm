@@ -60,7 +60,7 @@ runs:
       with:
         user: ${{ inputs.user }}
         context: ${{ inputs.docker_build_context }}
-        load: 'true'
+        load: 'false'
         push: 'true'
         tags: ${{ inputs.publish_repo }}:${{ inputs.publish_tag }}
         required_images: ${{ inputs.required_images }}
