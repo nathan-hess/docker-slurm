@@ -119,4 +119,4 @@ jobs:
 
       - name: Test Docker Image
         run: |
-          docker run --rm -v $GITHUB_WORKSPACE:/host test /bin/bash -c "${{ matrix.sudo }} /etc/startup.sh && python3 /host/dockerfile_full/image_tests/run_tests_${{ matrix.user }}.py"
+          docker run --rm -v $GITHUB_WORKSPACE:/host test /bin/bash -c "${{ matrix.sudo }} /etc/startup.sh && bash /host/dockerfile_full/image_tests/run_tests.sh ${{ matrix.user }}"
