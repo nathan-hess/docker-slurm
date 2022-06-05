@@ -1,6 +1,15 @@
 #!/bin/bash
 
 ## SETUP ---------------------------------------------------------------------
+# Validate inputs
+if [ "${1}" == "standard" ] || [ "${1}" == "root" ]; then
+    printf "Running image tests for ${1} user\n\n"
+else
+    printf "User privilege level \"${1}\" is not valid. Please select "
+    printf "\"standard\" or \"root\"\n"
+    exit 1
+fi
+
 # Counters for number of passed and failed tests
 num_pass=0
 num_fail=0
