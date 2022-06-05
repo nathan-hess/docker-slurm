@@ -1,0 +1,9 @@
+name: Setup Composite Action
+description: Sets up GitHub Actions runner to build, test, and publish images
+
+runs:
+  using: composite
+  steps:
+    - name: Load Build Arguments
+      shell: bash
+      run: cat .env >> $GITHUB_ENV
