@@ -2,8 +2,8 @@ name: Docker Image Testing
 
 on:
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - main
     tags-ignore:
       - '**'
   workflow_dispatch:
