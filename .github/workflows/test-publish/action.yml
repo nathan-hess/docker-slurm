@@ -1,0 +1,71 @@
+name: Docker Test and Publish Composite Action
+description: Builds, tests, and publishes a Docker image
+
+inputs:
+  user:
+    description: Image default user privilege level (standard or root)
+    required: true
+  docker_build_context:
+    description: Context when building Docker images
+    required: true
+  publish_repo:
+    description: Docker Hub repository to which to publish image
+    required: true
+  publish_tag:
+    description: Docker Hub tag with which to publish image
+    required: true
+  required_images:
+    description: Space-separated list of images which need to be available (as shown by `docker images`)
+    required: false
+    default: ''
+
+  DOCKER_HUB_USERNAME:
+    description: Docker Hub username
+    required: true
+  DOCKER_HUB_ACCESS_TOKEN:
+    description: Docker Hub Access Token
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run Image Tests
+      uses: './.github/workflows/test'
+      with:
+        user: ${{ inputs.user }}
+        docker_build_context: ${{ inputs.docker_build_context }}
+        required_images: ${{ inputs.required_images }}
+
+    - name: Log in to Docker Hub
+      if: ${{ success() }}
+      uses: docker/login-action@v1
+      with:
+        username: ${{ inputs.DOCKER_HUB_USERNAME }}
+        password: ${{ inputs.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Clean Up Images
+      if: ${{ success() }}
+      shell: bash
+      run: |
+        image_tag="${{ inputs.publish_repo }}:${{ inputs.publish_tag }}"
+        if [[ "$(docker images -q "${image_tag}")" == "" ]]; then
+          echo "Image \"${image_tag}\" does not exist"
+        else
+          docker rmi "${image_tag}"
+        fi
+
+    - name: Build and Publish Docker Image
+      if: ${{ success() }}
+      uses: './.github/workflows/docker-build-push'
+      with:
+        user: ${{ inputs.user }}
+        context: ${{ inputs.docker_build_context }}
+        load: 'true'
+        push: 'true'
+        tags: ${{ inputs.publish_repo }}:${{ inputs.publish_tag }}
+        required_images: ${{ inputs.required_images }}
+
+    - name: List Docker Images
+      if: ${{ success() }}
+      shell: bash
+      run: docker images
