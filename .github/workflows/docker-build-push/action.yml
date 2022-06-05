@@ -17,10 +17,19 @@ inputs:
   tags:
     description: List of tags after building image
     required: true
+  required_images:
+    description: Space-separated list of images which need to be available (as shown by `docker images`)
+    required: false
+    default: ''
 
 runs:
   using: composite
   steps:
+    - name: Check for Required Images
+      uses: './.github/workflows/check-required-images'
+      with:
+        required_images: ${{ inputs.required_images }}
+
     - name: Build and Publish Docker Image
       uses: docker/build-push-action@v2
       with:
