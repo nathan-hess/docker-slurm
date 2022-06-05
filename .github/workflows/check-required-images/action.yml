@@ -13,6 +13,7 @@ runs:
     - name: Check for Docker Images
       shell: bash
       run: |
+        echo "Checking for required Docker images..."
         num_missing_imgs=0
         for image in $(echo "${{ inputs.required_images }}"); do
           if [[ "$(docker images -q "${image}")" == "" ]]; then
@@ -21,8 +22,9 @@ runs:
           fi
         done
         if [ "$num_missing_imgs" -eq "0" ]; then
+          echo "All required images found"
           exit 0
         else
-          printf "\nMissing ${num_missing_imgs} required images\n"
+          printf "Missing ${num_missing_imgs} required image(s)\n"
           exit 1
         fi

@@ -39,6 +39,7 @@ runs:
         tags: ${{ inputs.tags }}
         build-args: |
           BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+          BASE_TAG=${{ env.TAG_BASE_ROOT }}
           UBUNTU_VERSION=${{ env.CONTAINER_UBUNTU_VERSION }}
           USERNAME=${{ env.CONTAINER_USERNAME }}
           PASSWORD=${{ env.CONTAINER_PASSWORD }}
