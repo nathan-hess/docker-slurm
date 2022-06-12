@@ -35,7 +35,7 @@ runs:
       run: |
         sudo_cmd=""
         if [ "${{ inputs.user }}" == "standard" ]; then sudo_cmd="sudo"; fi
-        test_script="/host/${{inputs.docker_build_context}}/image_tests/run_tests.sh"
+        test_script="/host/${{ inputs.docker_build_context }}/image_tests/run_tests.sh"
         docker run --rm -v "$GITHUB_WORKSPACE":/host "${{ inputs.test_img_name }}:${{ inputs.user }}" \
           /bin/bash -c "${sudo_cmd} /etc/startup.sh && bash '${test_script}' '${{ inputs.user }}'"
 
