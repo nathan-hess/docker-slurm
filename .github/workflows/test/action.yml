@@ -1,0 +1,45 @@
+name: Docker Test Composite Action
+description: Builds and tests a Docker image
+
+inputs:
+  user:
+    description: Image default user privilege level (standard or root)
+    required: true
+  docker_build_context:
+    description: Context when building Docker images
+    required: true
+  required_images:
+    description: Space-separated list of images which need to be available (as shown by `docker images`)
+    required: false
+    default: ''
+  test_img_name:
+    description: Image name to use when building test image
+    required: false
+    default: testimage
+
+runs:
+  using: composite
+  steps:
+    - name: Build Test Image
+      uses: './.github/workflows/docker-build-push'
+      with:
+        user: ${{ inputs.user }}
+        context: ${{ inputs.docker_build_context }}
+        load: 'true'
+        push: 'false'
+        tags: ${{ inputs.test_img_name }}:${{ inputs.user }}
+        required_images: ${{ inputs.required_images }}
+
+    - name: Test Docker Image
+      shell: bash
+      run: |
+        sudo_cmd=""
+        if [ "${{ inputs.user }}" == "standard" ]; then sudo_cmd="sudo"; fi
+        test_script="/host/${{ inputs.docker_build_context }}/image_tests/run_tests.sh"
+        docker run --rm -v "$GITHUB_WORKSPACE":/host "${{ inputs.test_img_name }}:${{ inputs.user }}" \
+          /bin/bash -c "${sudo_cmd} /etc/startup.sh && bash '${test_script}' '${{ inputs.user }}'"
+
+    - name: Remove Test Image
+      if: ${{ always() }}
+      shell: bash
+      run: docker rmi "${{ inputs.test_img_name }}:${{ inputs.user }}"

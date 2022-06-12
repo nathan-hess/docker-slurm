@@ -1,0 +1,50 @@
+name: Docker Build-Push Composite Action
+description: Wrapper for Docker Build-Push Action
+
+inputs:
+  user:
+    description: Image default user privilege level (standard or root)
+    required: true
+  context:
+    description: Context when building Docker images
+    required: true
+  load:
+    description: Whether to make image available locally on the runner
+    required: true
+  push:
+    description: Whether to publish image to Docker Hub
+    required: true
+  tags:
+    description: List of tags after building image
+    required: true
+  required_images:
+    description: Space-separated list of images which need to be available (as shown by `docker images`)
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Check for Required Images
+      uses: './.github/workflows/check-required-images'
+      with:
+        required_images: ${{ inputs.required_images }}
+
+    - name: Build and Publish Docker Image
+      if: ${{ success() }}
+      uses: docker/build-push-action@v2
+      with:
+        context: ${{ inputs.context }}
+        load: ${{ inputs.load == 'true' }}
+        push: ${{ inputs.push == 'true' }}
+        tags: ${{ inputs.tags }}
+        build-args: |
+          BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
+          BASE_TAG=${{ env.TAG_BASE_ROOT }}
+          UBUNTU_VERSION=${{ env.CONTAINER_UBUNTU_VERSION }}
+          USERNAME=${{ env.CONTAINER_USERNAME }}
+          PASSWORD=${{ env.CONTAINER_PASSWORD }}
+          UID=${{ env.CONTAINER_UID }}
+          GID=${{ env.CONTAINER_GID }}
+          TIMEZONE=${{ env.CONTAINER_TIMEZONE }}
+          USER_PRIVILEGE_LEVEL=${{ inputs.user }}
