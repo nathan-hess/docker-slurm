@@ -69,11 +69,15 @@ Note that the instructions in this section were developed and tested on devices 
 
 To pull and run a container to quickly test it out and experiment with Slurm, first pull the image from Docker Hub:
 
-`docker pull nathanhess/slurm:[TAG]`
+```Shell
+docker pull nathanhess/slurm:[TAG]
+```
 
 Then start a container:
 
-`docker run --rm -it nathanhess/slurm:[TAG]`
+```Shell
+docker run --rm -it nathanhess/slurm:[TAG]
+```
 
 Where `[TAG]` is selected from the table [above](#docker-hub-repository-httpshubdockercomrnathanhessslurm).
 
@@ -119,7 +123,7 @@ After setting up the `devcontainer.json` file, simply select the "Reopen in Cont
 
 A sample `devcontainer.json` file is shown below.  This sample file illustrates how to set a desired container hostname, avoid Git "unsafe directory" errors, and install pip dependencies inside the container.
 
-```
+```JSON
 {
     "image": "nathanhess/slurm:full",
     "runArgs": ["--hostname=linux"],
@@ -142,7 +146,7 @@ Then, as shown in the image below, open VS Code and navigate to the Docker exten
 
 Another application of the images in this repository is running automated code testing that invokes Slurm commands, through a platform such as GitHub Actions.  To run GitHub Actions workflows in one of the images in this repository, simply set the value of `jobs.<job_id>.container.image` to the desired Docker Hub repository and tag as illustrated below:
 
-```
+```YAML
 jobs:
   build:
     name: Job Name
