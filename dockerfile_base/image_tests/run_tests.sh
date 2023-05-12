@@ -27,6 +27,9 @@ check_pkg_exists() {
     fi
 }
 
+# Give Slurm enought time to initialize
+sleep 2
+
 
 ## TESTS ---------------------------------------------------------------------
 # Check operating system version
