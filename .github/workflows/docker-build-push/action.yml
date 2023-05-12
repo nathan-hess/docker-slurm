@@ -45,6 +45,5 @@ runs:
           USERNAME=${{ env.CONTAINER_USERNAME }}
           PASSWORD=${{ env.CONTAINER_PASSWORD }}
           UID=${{ env.CONTAINER_UID }}
-          GID=${{ env.CONTAINER_GID }}
           TIMEZONE=${{ env.CONTAINER_TIMEZONE }}
           USER_PRIVILEGE_LEVEL=${{ inputs.user }}
