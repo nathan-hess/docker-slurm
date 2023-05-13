@@ -4,12 +4,10 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/**'
-      - 'dockerfile**'
-      - '.env'
     tags-ignore:
       - '**'
+  release:
+    types: [published]
   schedule:
     - cron: '0 0 14,28 * *'
   workflow_dispatch:
@@ -25,6 +23,21 @@ jobs:
       - name: Set Up Runner
         uses: './.github/workflows/composite-actions/setup'
 
+      - name: Set Image Tags
+        id: tags
+        run: |
+          if [[ "${{ github.event_name}}" == "release" ]]; then
+            echo "TAG_BASE_STANDARD=${{ env.TAG_BASE_STANDARD }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "TAG_BASE_ROOT=${{ env.TAG_BASE_ROOT }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_STANDARD=${{ env.TAG_FULL_STANDARD }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_ROOT=${{ env.TAG_FULL_ROOT }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "TAG_BASE_STANDARD=${{ env.TAG_BASE_STANDARD }}" >> $GITHUB_OUTPUT
+            echo "TAG_BASE_ROOT=${{ env.TAG_BASE_ROOT }}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_STANDARD=${{ env.TAG_FULL_STANDARD }}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_ROOT=${{ env.TAG_FULL_ROOT }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Publish Docker Image - base - standard
         if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test-publish'
@@ -32,7 +45,7 @@ jobs:
           user: standard
           docker_build_context: dockerfile_base/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
-          publish_tag: ${{ env.TAG_BASE_STANDARD }}
+          publish_tag: ${{ steps.tags.outputs.TAG_BASE_STANDARD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
@@ -43,7 +56,7 @@ jobs:
           user: root
           docker_build_context: dockerfile_base/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
-          publish_tag: ${{ env.TAG_BASE_ROOT }}
+          publish_tag: ${{ steps.tags.outputs.TAG_BASE_ROOT }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
@@ -54,7 +67,7 @@ jobs:
           user: standard
           docker_build_context: dockerfile_full/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
-          publish_tag: ${{ env.TAG_FULL_STANDARD }}
+          publish_tag: ${{ steps.tags.outputs.TAG_FULL_STANDARD }}
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -66,7 +79,7 @@ jobs:
           user: root
           docker_build_context: dockerfile_full/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
-          publish_tag: ${{ env.TAG_FULL_ROOT }}
+          publish_tag: ${{ steps.tags.outputs.TAG_FULL_ROOT }}
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
