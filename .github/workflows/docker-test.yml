@@ -1,11 +1,8 @@
 name: Docker Image Testing
 
 on:
-  push:
-    branches-ignore:
-      - main
-    tags-ignore:
-      - '**'
+  pull_request:
+    types: [opened, reopened, synchronize]
   workflow_dispatch:
 
 jobs:
