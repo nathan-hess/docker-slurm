@@ -26,7 +26,7 @@ runs:
   using: composite
   steps:
     - name: Check for Required Images
-      uses: './.github/workflows/check-required-images'
+      uses: './.github/workflows/composite-actions/check-required-images'
       with:
         required_images: ${{ inputs.required_images }}
 

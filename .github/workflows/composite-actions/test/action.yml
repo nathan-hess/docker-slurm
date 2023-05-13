@@ -25,7 +25,7 @@ runs:
   using: composite
   steps:
     - name: Build Test Image
-      uses: './.github/workflows/docker-build-push'
+      uses: './.github/workflows/composite-actions/docker-build-push'
       with:
         user: ${{ inputs.user }}
         context: ${{ inputs.docker_build_context }}

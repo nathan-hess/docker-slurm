@@ -17,24 +17,24 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set Up Runner
-        uses: './.github/workflows/setup'
+        uses: './.github/workflows/composite-actions/setup'
 
       - name: Test Docker Image - base - standard
         if: ${{ always() }}
-        uses: './.github/workflows/test'
+        uses: './.github/workflows/composite-actions/test'
         with:
           user: standard
           docker_build_context: dockerfile_base/
 
       - name: Test Docker Image - base - root
         if: ${{ always() }}
-        uses: './.github/workflows/test'
+        uses: './.github/workflows/composite-actions/test'
         with:
           user: root
           docker_build_context: dockerfile_base/
 
       - name: Build Image - base/root (full image dependency)
-        uses: './.github/workflows/docker-build-push'
+        uses: './.github/workflows/composite-actions/docker-build-push'
         with:
           user: root
           context: dockerfile_base/
@@ -44,7 +44,7 @@ jobs:
 
       - name: Test Docker Image - full - standard
         if: ${{ always() }}
-        uses: './.github/workflows/test'
+        uses: './.github/workflows/composite-actions/test'
         with:
           user: standard
           docker_build_context: dockerfile_full/
@@ -52,7 +52,7 @@ jobs:
 
       - name: Test Docker Image - full - root
         if: ${{ always() }}
-        uses: './.github/workflows/test'
+        uses: './.github/workflows/composite-actions/test'
         with:
           user: root
           docker_build_context: dockerfile_full/
