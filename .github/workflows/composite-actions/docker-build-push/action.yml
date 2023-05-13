@@ -26,13 +26,13 @@ runs:
   using: composite
   steps:
     - name: Check for Required Images
-      uses: './.github/workflows/check-required-images'
+      uses: './.github/workflows/composite-actions/check-required-images'
       with:
         required_images: ${{ inputs.required_images }}
 
     - name: Build and Publish Docker Image
       if: ${{ success() }}
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v4
       with:
         context: ${{ inputs.context }}
         load: ${{ inputs.load == 'true' }}

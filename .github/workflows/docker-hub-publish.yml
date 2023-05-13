@@ -23,50 +23,50 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set Up Runner
-        uses: './.github/workflows/setup'
+        uses: './.github/workflows/composite-actions/setup'
 
       - name: Publish Docker Image - base - standard
         if: ${{ always() }}
-        uses: './.github/workflows/test-publish'
+        uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: standard
           docker_build_context: dockerfile_base/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_BASE_STANDARD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - base - root
         if: ${{ always() }}
-        uses: './.github/workflows/test-publish'
+        uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: root
           docker_build_context: dockerfile_base/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_BASE_ROOT }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - full - standard
         if: ${{ always() }}
-        uses: './.github/workflows/test-publish'
+        uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: standard
           docker_build_context: dockerfile_full/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_FULL_STANDARD }}
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - full - root
         if: ${{ always() }}
-        uses: './.github/workflows/test-publish'
+        uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: root
           docker_build_context: dockerfile_full/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_FULL_ROOT }}
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}

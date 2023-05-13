@@ -30,7 +30,7 @@ runs:
   using: composite
   steps:
     - name: Run Image Tests
-      uses: './.github/workflows/test'
+      uses: './.github/workflows/composite-actions/test'
       with:
         user: ${{ inputs.user }}
         docker_build_context: ${{ inputs.docker_build_context }}
@@ -38,7 +38,7 @@ runs:
 
     - name: Log in to Docker Hub
       if: ${{ success() }}
-      uses: docker/login-action@v1
+      uses: docker/login-action@v2
       with:
         username: ${{ inputs.DOCKER_HUB_USERNAME }}
         password: ${{ inputs.DOCKER_HUB_ACCESS_TOKEN }}
@@ -56,7 +56,7 @@ runs:
 
     - name: Build and Publish Docker Image
       if: ${{ success() }}
-      uses: './.github/workflows/docker-build-push'
+      uses: './.github/workflows/composite-actions/docker-build-push'
       with:
         user: ${{ inputs.user }}
         context: ${{ inputs.docker_build_context }}
