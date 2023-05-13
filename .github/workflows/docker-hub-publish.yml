@@ -60,6 +60,16 @@ jobs:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Build Image - base/root (full image dependency)
+        if: ${{ github.event_name == 'release' }}
+        uses: './.github/workflows/composite-actions/docker-build-push'
+        with:
+          user: root
+          context: dockerfile_base/
+          load: 'true'
+          push: 'false'
+          tags: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
+
       - name: Publish Docker Image - full - standard
         if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test-publish'
