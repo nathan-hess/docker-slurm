@@ -19,7 +19,8 @@ RUN apt update && apt -y upgrade
 
 # Install system packages
 RUN DEBIAN_FRONTEND=noninteractive \
-    apt -y install build-essential \
+    apt -y install bc \
+                   build-essential \
                    curl \
                    dos2unix \
                    gdb \
