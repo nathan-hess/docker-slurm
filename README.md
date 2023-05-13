@@ -63,7 +63,7 @@ To use the images in this repository, ensure that you have first completed the f
 
 Note that the instructions in this section were developed and tested on devices running Windows 10 and Ubuntu 20.04 as root.  Issues can sometimes be encountered if using Docker on Linux systems in [rootless mode](https://docs.docker.com/engine/security/rootless/); in these cases it is advised to either use one of the [`root` images](#docker-hub-repository-httpshubdockercomrnathanhessslurm) or run Docker as root.
 
-> **Important**: The standard user images by default use the username and password posted publicly in this repository.  If security is of significant concern, it is recommended that you change the password by running `passwd` after starting the container.
+> **Warning**: The standard user images by default use the username and password posted publicly in this repository.  If security is of significant concern, it is recommended that you change the password by running `passwd` after starting the container.
 
 ### Try it Out!
 
@@ -89,7 +89,7 @@ To use Docker Compose, open a terminal in the root of the repository.  Then, run
 
 | Use Case                                      | Image Source         | Command                            |
 |:----------------------------------------------|:---------------------|:-----------------------------------|
-| Basic testing in terminal                     | Pull from Docker Hub | `docker compose run [TAG]`         |
+| Basic testing in terminal                     | Pull from Docker Hub | `docker compose run --rm [TAG]`    |
 | Create detached container                     | Pull from Docker Hub | `docker compose up -d [TAG]`       |
 | Build image locally                           | Build locally        | `docker compose build build-[TAG]` |
 | Remove containers created with Docker Compose | N/A                  | `docker compose down`              |
