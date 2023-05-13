@@ -58,7 +58,7 @@ For a list of useful Docker commands, refer to the [Docker Command-Line Referenc
 To use the images in this repository, ensure that you have first completed the following steps:
 - Installed [Docker Desktop](https://docs.docker.com/desktop/)
 - Installed [Visual Studio Code](https://code.visualstudio.com/docs/setup/setup-overview) (VS Code)
-  - Within VS Code, install the [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions
+  - Within VS Code, install the [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions
 - If you want to build images locally or customize the images, also [clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) to your local system
 
 Note that the instructions in this section were developed and tested on devices running Windows 10 and Ubuntu 20.04 as root.  Issues can sometimes be encountered if using Docker on Linux systems in [rootless mode](https://docs.docker.com/engine/security/rootless/); in these cases it is advised to either use one of the [`root` images](#docker-hub-repository-httpshubdockercomrnathanhessslurm) or run Docker as root.
@@ -100,13 +100,13 @@ Many additional options can be configured in `docker-compose.yml`.  Refer to the
 
 ### Visual Studio Code Development Containers
 
-VS Code can be [run inside a container](https://code.visualstudio.com/docs/remote/containers), thus using the container as a development environment with access to the full range of VS Code capabilities.  This provides a useful application of the images inside this repository, allowing rapid testing of code that interfaces with Slurm.
+VS Code can be [run inside a container](https://code.visualstudio.com/docs/devcontainers/containers), thus using the container as a development environment with access to the full range of VS Code capabilities.  This provides a useful application of the images inside this repository, allowing rapid testing of code that interfaces with Slurm.
 
 #### devcontainer.json
 
-The recommended way to use the images in this repository as a VS Code development container is by creating a `devcontainer.json` file.  This file allows a [sizeable number of options](https://code.visualstudio.com/docs/remote/devcontainerjson-reference) (hostname, which folders on the host system are mounted in the container, commands to run after creating the container, etc.) to be configured.
+The recommended way to use the images in this repository as a VS Code development container is by creating a `devcontainer.json` file.  This file allows a [sizeable number of options](https://containers.dev/implementors/json_reference/) (hostname, which folders on the host system are mounted in the container, commands to run after creating the container, etc.) to be configured.
 
-To use a `devcontainer.json` file for one of your projects, first navigate to the root directory of your project repository.  Create a folder `.devcontainer/` and inside this folder, create a JSON file named `devcontainer.json`.  You can add any desired [configuration options](https://code.visualstudio.com/docs/remote/devcontainerjson-reference) to the `devcontainer.json` file you created.  However, at minimum, the following options must be set:
+To use a `devcontainer.json` file for one of your projects, first navigate to the root directory of your project repository.  Create a folder `.devcontainer/` and inside this folder, create a JSON file named `devcontainer.json`.  You can add any desired [configuration options](https://containers.dev/implementors/json_reference/) to the `devcontainer.json` file you created.  However, at minimum, the following options must be set:
 
 | Key                  | Image Default User | Value                      |
 |:---------------------|:-------------------|:---------------------------|
@@ -117,7 +117,7 @@ To use a `devcontainer.json` file for one of your projects, first navigate to th
 
 Where `[TAG]` is selected from the table [above](#docker-hub-repository-httpshubdockercomrnathanhessslurm).
 
-After setting up the `devcontainer.json` file, simply select the "Reopen in Container" option from the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension as illustrated below.
+After setting up the `devcontainer.json` file, simply select the "Reopen in Container" option from the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension as illustrated below.
 
 ![Launching a VS Code Development Container](media/readme_launch_devcontainer.png)
 
@@ -188,9 +188,9 @@ If extending the existing Docker image configurations to overcome any of the abo
 - [Docker Compose](https://docs.docker.com/compose/)
   - [Compose File Reference](https://docs.docker.com/compose/compose-file/)
 - [Visual Studio Code](https://code.visualstudio.com/)
-  - [Developing Inside a Container](https://code.visualstudio.com/docs/remote/containers)
-  - [Attach to a Container](https://code.visualstudio.com/docs/remote/attach-container)
-  - [Creating a Development Container](https://code.visualstudio.com/docs/remote/create-dev-container)
-  - [devcontainer.json File Reference](https://code.visualstudio.com/docs/remote/devcontainerjson-reference)
+  - [Developing Inside a Container](https://code.visualstudio.com/docs/devcontainers/containers)
+  - [Attach to a Container](https://code.visualstudio.com/docs/devcontainers/attach-container)
+  - [Creating a Development Container](https://code.visualstudio.com/docs/devcontainers/create-dev-container)
+  - [`devcontainer.json` File Reference](https://containers.dev/implementors/json_reference/)
 - [GitHub Actions](https://docs.github.com/en/actions)
   - [Running jobs in a container](https://docs.github.com/en/actions/using-jobs/running-jobs-in-a-container)
