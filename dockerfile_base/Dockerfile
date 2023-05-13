@@ -9,7 +9,6 @@ ARG UBUNTU_VERSION
 ARG USERNAME
 ARG PASSWORD
 ARG UID
-ARG GID
 
 
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
@@ -48,7 +47,6 @@ FROM stage-root as stage-standard
 ARG USERNAME
 ARG PASSWORD
 ARG UID
-ARG GID
 
 # Create user account and add to "sudo" group
 RUN apt -y install sudo openssl
@@ -61,7 +59,7 @@ RUN printf "${USERNAME} ALL=(root:root) NOPASSWD: /etc/startup.sh\n" >> /etc/sud
     && visudo -c
 
 # Set standard user as default
-USER ${UID}:${GID}
+USER ${USERNAME}
 
 # Enable colored Bash terminal prompt
 RUN sed -i -e 's/#force_color_prompt=yes/force_color_prompt=yes/' /home/${USERNAME}/.bashrc
