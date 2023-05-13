@@ -33,8 +33,8 @@ jobs:
           docker_build_context: dockerfile_base/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_BASE_STANDARD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - base - root
         if: ${{ always() }}
@@ -44,8 +44,8 @@ jobs:
           docker_build_context: dockerfile_base/
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_BASE_ROOT }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - full - standard
         if: ${{ always() }}
@@ -56,8 +56,8 @@ jobs:
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_FULL_STANDARD }}
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - full - root
         if: ${{ always() }}
@@ -68,5 +68,5 @@ jobs:
           publish_repo: ${{ env.DOCKER_HUB_REPO }}
           publish_tag: ${{ env.TAG_FULL_ROOT }}
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
