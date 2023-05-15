@@ -23,6 +23,11 @@ RUN ln -sn /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
     && echo ${TIMEZONE} > /etc/timezone \
     && apt -y install tzdata
 
+# Set locale
+RUN apt -y install locales \
+    && locale-gen en_US.UTF-8 \
+    && update-locale LANG=en_US.UTF-8 LC_MESSAGES=POSIX
+
 # Install system packages
 RUN DEBIAN_FRONTEND=noninteractive \
     apt -y install munge \
