@@ -12,7 +12,7 @@ ARG UID
 
 
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
-FROM ubuntu:${UBUNTU_VERSION} as stage-root
+FROM ubuntu:${UBUNTU_VERSION} AS stage-root
 ARG TIMEZONE
 
 # Run system updates
@@ -48,7 +48,7 @@ CMD /etc/startup.sh ; /bin/bash -l
 
 
 ## BUILD IMAGE: STANDARD USER ------------------------------------------------
-FROM stage-root as stage-standard
+FROM stage-root AS stage-standard
 ARG USERNAME
 ARG PASSWORD
 ARG UID
