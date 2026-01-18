@@ -12,7 +12,7 @@ ARG UID
 
 
 ## BUILD IMAGE: ROOT USER ----------------------------------------------------
-FROM ${BASE_DOCKER_REPO}:${BASE_TAG} as stage-root
+FROM ${BASE_DOCKER_REPO}:${BASE_TAG} AS stage-root
 
 # Run system updates
 RUN apt update && apt -y upgrade
@@ -50,7 +50,7 @@ CMD /etc/startup.sh ; /bin/bash -l
 
 
 ## BUILD IMAGE: STANDARD USER ------------------------------------------------
-FROM stage-root as stage-standard
+FROM stage-root AS stage-standard
 ARG USERNAME
 ARG PASSWORD
 ARG UID
