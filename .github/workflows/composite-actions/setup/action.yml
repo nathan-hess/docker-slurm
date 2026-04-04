@@ -1,9 +1,22 @@
 name: Setup Composite Action
 description: Sets up GitHub Actions runner to build, test, and publish images
 
+inputs:
+  runner:
+    description: GitHub Actions runner that the workflow is running on
+    required: true
+
 runs:
   using: composite
   steps:
+    - name: Modify Tags for Arm Builds
+      id: tags
+      shell: bash
+      run: |
+        if [[ "${{ matrix.os }}" == *"-arm" ]]; then
+          sed -i 's/^TAG.*/&-arm/' ".env"
+        fi
+
     - name: Load Build Arguments
       shell: bash
       run: cat .env >> $GITHUB_ENV
