@@ -17,12 +17,16 @@ Both image versions are configured such that the default user is either `root` (
 
 ### Docker Hub repository: https://hub.docker.com/r/nathanhess/slurm
 
-| Tag       | Base Image                                | Build Context      | Default User |  
-|:----------|:------------------------------------------|:-------------------|:-------------|
-| base      | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | standard     |
-| base-root | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | root         |
-| full      | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | standard     |
-| full-root | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | root         |
+| Tag           | Architecture | Base Image                                | Build Context      | Default User |
+|:--------------|:-------------|:------------------------------------------|:-------------------|:-------------|
+| base          | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | standard     |
+| base-root     | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | root         |
+| full          | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | standard     |
+| full-root     | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | root         |
+| base-arm      | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | standard     |
+| base-root-arm | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | root         |
+| full-arm      | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | standard     |
+| full-root-arm | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | root         |
 
 > **Note**: For the images with a standard user, the default username is `docker` and the default password is `ubuntu`.
 
