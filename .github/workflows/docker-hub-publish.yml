@@ -15,10 +15,13 @@ on:
 jobs:
   build:
     name: Docker Hub
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check Out Repository Files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set Up Runner
         uses: './.github/workflows/composite-actions/setup'
@@ -26,16 +29,21 @@ jobs:
       - name: Set Image Tags
         id: tags
         run: |
-          if [[ "${{ github.event_name}}" == "release" ]]; then
-            echo "TAG_BASE_STANDARD=${{ env.TAG_BASE_STANDARD }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
-            echo "TAG_BASE_ROOT=${{ env.TAG_BASE_ROOT }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
-            echo "TAG_FULL_STANDARD=${{ env.TAG_FULL_STANDARD }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
-            echo "TAG_FULL_ROOT=${{ env.TAG_FULL_ROOT }}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          if [[ "${{ matrix.os }}" == *"-arm" ]]; then
+            architecture="-arm"
           else
-            echo "TAG_BASE_STANDARD=${{ env.TAG_BASE_STANDARD }}" >> $GITHUB_OUTPUT
-            echo "TAG_BASE_ROOT=${{ env.TAG_BASE_ROOT }}" >> $GITHUB_OUTPUT
-            echo "TAG_FULL_STANDARD=${{ env.TAG_FULL_STANDARD }}" >> $GITHUB_OUTPUT
-            echo "TAG_FULL_ROOT=${{ env.TAG_FULL_ROOT }}" >> $GITHUB_OUTPUT
+            architecture=""
+          fi
+          if [[ "${{ github.event_name}}" == "release" ]]; then
+            echo "TAG_BASE_STANDARD=${{ env.TAG_BASE_STANDARD }}${architecture}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "TAG_BASE_ROOT=${{ env.TAG_BASE_ROOT }}${architecture}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_STANDARD=${{ env.TAG_FULL_STANDARD }}${architecture}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_ROOT=${{ env.TAG_FULL_ROOT }}${architecture}-${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "TAG_BASE_STANDARD=${{ env.TAG_BASE_STANDARD }}${architecture}" >> $GITHUB_OUTPUT
+            echo "TAG_BASE_ROOT=${{ env.TAG_BASE_ROOT }}${architecture}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_STANDARD=${{ env.TAG_FULL_STANDARD }}${architecture}" >> $GITHUB_OUTPUT
+            echo "TAG_FULL_ROOT=${{ env.TAG_FULL_ROOT }}${architecture}" >> $GITHUB_OUTPUT
           fi
 
       - name: Publish Docker Image - base - standard
