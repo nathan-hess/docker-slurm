@@ -15,18 +15,13 @@ on:
 jobs:
   build:
     name: Docker Hub
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, ubuntu-24.04-arm]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-24.04
     steps:
       - name: Check Out Repository Files
         uses: actions/checkout@v6
 
       - name: Set Up Runner
         uses: './.github/workflows/composite-actions/setup'
-        with:
-          runner: ${{ matrix.os}}
 
       - name: Set Image Tags
         id: tags

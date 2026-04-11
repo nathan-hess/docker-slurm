@@ -17,16 +17,12 @@ Both image versions are configured such that the default user is either `root` (
 
 ### Docker Hub repository: https://hub.docker.com/r/nathanhess/slurm
 
-| Tag           | Architecture | Base Image                                | Build Context      | Default User |
-|:--------------|:-------------|:------------------------------------------|:-------------------|:-------------|
-| base          | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | standard     |
-| base-root     | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | root         |
-| full          | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | standard     |
-| full-root     | x86          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | root         |
-| base-arm      | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | standard     |
-| base-root-arm | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | root         |
-| full-arm      | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | standard     |
-| full-root-arm | Arm          | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | root         |
+| Tag       | Base Image                                | Build Context      | Default User |
+|:----------|:------------------------------------------|:-------------------|:-------------|
+| base      | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | standard     |
+| base-root | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | root         |
+| full      | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | standard     |
+| full-root | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | root         |
 
 > [!NOTE]
 > For the images with a standard user, the default username is `docker` and the default password is `ubuntu`.
@@ -97,13 +93,10 @@ To use Docker Compose, open a terminal in the root of the repository.  Then, run
 |:----------------------------------------------|:---------------------|:-----------------------------------|
 | Basic testing in terminal                     | Pull from Docker Hub | `docker compose run --rm [TAG]`    |
 | Create detached container                     | Pull from Docker Hub | `docker compose up -d [TAG]`       |
-| Build image locally (see tip below)           | Build locally        | `docker compose build build-[TAG]` |
+| Build image locally                           | Build locally        | `docker compose build build-[TAG]` |
 | Remove containers created with Docker Compose | N/A                  | `docker compose down`              |
 
 Where `[TAG]` is selected from the table [above](#docker-hub-repository-httpshubdockercomrnathanhessslurm).
-
-> [!TIP]
-> If you're building locally on an Arm system and want the tags to match those in the table [above](#docker-hub-repository-httpshubdockercomrnathanhessslurm), edit the `.env` file in the root of the repository and append `-arm` to the lines beginning with `TAG` before building.
 
 Many additional options can be configured in `docker-compose.yml`.  Refer to the [Docker Compose reference](https://docs.docker.com/compose/) for further information.
 
