@@ -17,3 +17,16 @@ runs:
               "containerd-snapshotter": true
             }
           }
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v4
+
+    # Workaround for "qemu: uncaught target signal 11 (Segmentation fault)" error for
+    # multi-platform builds with Buildx on GitHub Actions runners
+    # https://github.com/docker/buildx/issues/1170
+    - name: Workaround for QEMU error
+      shell: bash
+      run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes -c yes
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v4
