@@ -40,7 +40,6 @@ jobs:
           tags: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
 
       - name: Test Docker Image - full - standard
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test'
         with:
           user: standard
@@ -48,7 +47,6 @@ jobs:
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
 
       - name: Test Docker Image - full - root
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test'
         with:
           user: root

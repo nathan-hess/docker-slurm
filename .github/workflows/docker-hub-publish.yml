@@ -71,7 +71,6 @@ jobs:
           tags: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
 
       - name: Publish Docker Image - full - standard
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: standard
@@ -83,7 +82,6 @@ jobs:
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - full - root
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: root
