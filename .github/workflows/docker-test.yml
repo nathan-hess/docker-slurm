@@ -30,6 +30,10 @@ jobs:
           user: root
           docker_build_context: dockerfile_base/
 
+      # This step builds the base image locally. The full image depends on the
+      # base image, and the workflow requires the base image to exist locally
+      # (otherwise it would be pulled from Docker Hub, which would defeat the
+      # purpose of testing the latest changes)
       - name: Build Image - base/root (full image dependency)
         uses: './.github/workflows/composite-actions/docker-build-push'
         with:
