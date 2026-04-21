@@ -17,14 +17,15 @@ Both image versions are configured such that the default user is either `root` (
 
 ### Docker Hub repository: https://hub.docker.com/r/nathanhess/slurm
 
-| Tag       | Base Image                                | Build Context      | Default User |  
+| Tag       | Base Image                                | Build Context      | Default User |
 |:----------|:------------------------------------------|:-------------------|:-------------|
 | base      | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | standard     |
 | base-root | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_base/` | root         |
 | full      | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | standard     |
 | full-root | [Ubuntu](https://hub.docker.com/_/ubuntu) | `dockerfile_full/` | root         |
 
-> **Note**: For the images with a standard user, the default username is `docker` and the default password is `ubuntu`.
+> [!NOTE]
+> For the images with a standard user, the default username is `docker` and the default password is `ubuntu`.
 
 ### GitHub repository: https://github.com/nathan-hess/docker-slurm
 
@@ -63,7 +64,8 @@ To use the images in this repository, ensure that you have first completed the f
 
 Note that the instructions in this section were developed and tested on devices running Windows 10 and Ubuntu 20.04 as root.  Issues can sometimes be encountered if using Docker on Linux systems in [rootless mode](https://docs.docker.com/engine/security/rootless/); in these cases it is advised to either use one of the [`root` images](#docker-hub-repository-httpshubdockercomrnathanhessslurm) or run Docker as root.
 
-> **Warning**: The standard user images by default use the username and password posted publicly in this repository.  If security is of significant concern, it is recommended that you change the password by running `passwd` after starting the container.
+> [!CAUTION]
+> The standard user images by default use the username and password posted publicly in this repository.  If security is of significant concern, it is recommended that you change the password by running `passwd` after starting the container.
 
 ### Try it Out!
 

@@ -8,10 +8,10 @@ on:
 jobs:
   test:
     name: Docker Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Check Out Repository Files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set Up Runner
         uses: './.github/workflows/composite-actions/setup'
@@ -30,6 +30,10 @@ jobs:
           user: root
           docker_build_context: dockerfile_base/
 
+      # This step builds the base image locally. The full image depends on the
+      # base image, and the workflow requires the base image to exist locally
+      # (otherwise it would be pulled from Docker Hub, which would defeat the
+      # purpose of testing the latest changes)
       - name: Build Image - base/root (full image dependency)
         uses: './.github/workflows/composite-actions/docker-build-push'
         with:
@@ -40,7 +44,6 @@ jobs:
           tags: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
 
       - name: Test Docker Image - full - standard
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test'
         with:
           user: standard
@@ -48,7 +51,6 @@ jobs:
           required_images: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
 
       - name: Test Docker Image - full - root
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test'
         with:
           user: root

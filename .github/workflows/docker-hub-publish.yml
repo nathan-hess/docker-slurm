@@ -15,10 +15,10 @@ on:
 jobs:
   build:
     name: Docker Hub
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Check Out Repository Files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set Up Runner
         uses: './.github/workflows/composite-actions/setup'
@@ -60,6 +60,10 @@ jobs:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      # This step builds the base image locally for releases. The full image
+      # depends on the base image, and this image is built by the previous
+      # steps. However, for releases, the release name is added to the image
+      # tag, so the base image needs to be rebuilt with its non-release tag
       - name: Build Image - base/root (full image dependency)
         if: ${{ github.event_name == 'release' }}
         uses: './.github/workflows/composite-actions/docker-build-push'
@@ -71,7 +75,6 @@ jobs:
           tags: ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_BASE_ROOT }}
 
       - name: Publish Docker Image - full - standard
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: standard
@@ -83,7 +86,6 @@ jobs:
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Publish Docker Image - full - root
-        if: ${{ always() }}
         uses: './.github/workflows/composite-actions/test-publish'
         with:
           user: root

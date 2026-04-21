@@ -32,12 +32,13 @@ runs:
 
     - name: Build and Publish Docker Image
       if: ${{ success() }}
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v7
       with:
         context: ${{ inputs.context }}
         load: ${{ inputs.load == 'true' }}
         push: ${{ inputs.push == 'true' }}
         tags: ${{ inputs.tags }}
+        platforms: linux/amd64,linux/arm64
         build-args: |
           BASE_DOCKER_REPO=${{ env.DOCKER_HUB_REPO }}
           BASE_TAG=${{ env.TAG_BASE_ROOT }}

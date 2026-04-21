@@ -49,3 +49,8 @@ runs:
       if: ${{ always() }}
       shell: bash
       run: docker rmi "${{ inputs.test_img_name }}:${{ inputs.user }}"
+
+    - name: List Docker Images
+      if: ${{ success() }}
+      shell: bash
+      run: docker images
